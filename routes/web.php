@@ -16,3 +16,26 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/version', function () use ($router) {
+    return $router->app->version();
+});
+
+Route::group(['prefix' => 'api'], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::post('refresh', 'AuthController@refresh');
+
+    $router->group(['middleware' => 'auth'], function () use ($router){
+        Route::post('logout', 'AuthController@logout');
+        Route::get('user-profile', 'AuthController@me');
+        Route::get('/category', 'Admin\CategoryController@index');
+        Route::post('/category', 'Admin\CategoryController@store');
+        Route::get('/product', 'Admin\ProductController@index');
+        Route::post('/product', 'Admin\ProductController@store');
+
+        Route::group(['prefix' => 'super-user'], function ($router) {
+            Route::get('/roles', 'SuperUser\RoleController@index');
+            Route::post('/roles', 'SuperUser\RoleController@store');
+        });
+    });
+});

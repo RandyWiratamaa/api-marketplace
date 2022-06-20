@@ -32,6 +32,8 @@ Route::group(['prefix' => 'api'], function ($router) {
         Route::post('/category', 'Admin\CategoryController@store');
         Route::get('/product', 'Admin\ProductController@index');
         Route::post('/product', 'Admin\ProductController@store');
+        Route::get('/variant', 'Admin\VariantController@index');
+        Route::post('/variant', 'Admin\VariantController@store');
 
         Route::group(['prefix' => 'super-user'], function ($router) {
             Route::get('/roles', 'SuperUser\RoleController@index');

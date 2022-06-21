@@ -3,16 +3,24 @@
 ## Installasi
 
 #### clone repository
-```git clone https://github.com/RandyWiratamaa/api-marketplace.git```
+```
+git clone https://github.com/RandyWiratamaa/api-marketplace.git
+```
 
 #### install composer
-```composer install```
+```
+composer install
+```
 
 #### install Lumen Generator
-```composer require flipbox/lumen-generator```
+```
+composer require flipbox/lumen-generator
+```
 
 #### enable Lumen Generator pada bootstrap/app.php
-```$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);```
+```
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+```
 
 ### Authentikasi menggunakan JWT
 
@@ -43,7 +51,9 @@ return [
 ```
 
 #### Install JWT-auth via composer
-```composer require tymon/jwt-auth```
+```
+composer require tymon/jwt-auth
+```
 
 #### edit file bootstrap/app.php
 ```
@@ -68,10 +78,14 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 ```
 
 #### Generate secret key
-```php artisan jwt:secret```
+```
+php artisan jwt:secret
+```
 
 #### Buat Table User
-```php artisan make:migration create_users_table```
+```
+php artisan make:migration create_users_table
+```
 
 #### isikan dengan file berikut
 ```
@@ -105,4 +119,6 @@ class CreateUsersTable extends Migration
 ```
 
 #### Migrasi Database
-```php artisan migrate```
+```
+php artisan migrate
+```

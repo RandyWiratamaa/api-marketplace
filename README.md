@@ -24,7 +24,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 ### Authentikasi menggunakan JWT
 
-#### Tambahkan pada folder config/auth.php, buat baru jika belum ada
+#### Tambahkan pada folder ```config/auth.php```, buat baru jika belum ada
 ```
 <?php
 

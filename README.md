@@ -1,24 +1,108 @@
-# Lumen PHP Framework
+# REST API 
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+## Installasi
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+#### clone repository
+```git clone https://github.com/RandyWiratamaa/api-marketplace.git```
 
-## Official Documentation
+#### install composer
+```composer install```
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+#### install Lumen Generator
+```composer require flipbox/lumen-generator```
 
-## Contributing
+#### enable Lumen Generator pada bootstrap/app.php
+```$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);```
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Authentikasi menggunakan JWT
 
-## Security Vulnerabilities
+#### Tambahkan pada folder config/auth.php, buat baru jika belum ada
+```
+<?php
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+return [
+    'defaults' => [
+        'guard' => 'api',
+        'passwords' => 'users',
+    ],
 
-## License
+    'guards' => [
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+    ],
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\User::class
+        ]
+    ]
+];
+```
+
+#### Install JWT-auth via composer
+```composer require tymon/jwt-auth```
+
+#### edit file bootstrap/app.php
+```
+// Uncomment baris ini
+
+$app->withFacades();
+
+$app->withEloquent();
+
+// uncomment auth middleware 
+
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
+
+// uncomment authserviceprovider
+$app->register(App\Providers\AuthServiceProvider::class);
+
+// tambahkan baris ini
+
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+```
+
+#### Generate secret key
+```php artisan jwt:secret```
+
+#### Buat Table User
+```php artisan make:migration create_users_table```
+
+#### isikan dengan file berikut
+```
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateUsersTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('fullname');
+            $table->string('username')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
+}
+```
+
+#### Migrasi Database
+```php artisan migrate```

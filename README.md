@@ -17,7 +17,7 @@ composer install
 composer require flipbox/lumen-generator
 ```
 
-#### enable Lumen Generator pada bootstrap/app.php
+#### enable Lumen Generator pada ```bootstrap/app.php```
 ```
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 ```
@@ -55,7 +55,7 @@ return [
 composer require tymon/jwt-auth
 ```
 
-#### edit file bootstrap/app.php
+#### edit file ```bootstrap/app.php```
 ```
 // Uncomment baris ini
 
@@ -87,7 +87,7 @@ php artisan jwt:secret
 php artisan make:migration create_users_table
 ```
 
-#### isikan dengan file berikut
+#### isikan ```database/migrations/create_users_table``` dengan file berikut
 ```
 <?php
 
